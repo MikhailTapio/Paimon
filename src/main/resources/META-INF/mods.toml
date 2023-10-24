@@ -1,0 +1,16 @@
+modLoader = "javafml"
+loaderVersion = "[34,)"
+license = "All rights reserved"
+[[mods]] #mandatory
+modId = "paimon"
+version = "${file.jarVersion}"
+displayName = "A Paimon"
+authors = "ExtraMeteorP, GoldYgg, Tapio"
+description = ""
+
+[[dependencies.paimon]]
+modId = "curios"
+mandatory = true
+versionRange = "*"
+ordering = "AFTER"
+side = "BOTH"
