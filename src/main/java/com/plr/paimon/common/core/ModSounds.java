@@ -1,6 +1,6 @@
-package com.meteor.apaimon.common.core;
+package com.plr.paimon.common.core;
 
-import com.meteor.apaimon.common.libs.LibMisc;
+import com.plr.paimon.Constants;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.DeferredRegister;
@@ -8,7 +8,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class ModSounds {
-    public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, LibMisc.MOD_ID);
+    public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Constants.MOD_ID);
 
     public static final RegistryObject<SoundEvent> paimon_0 = makeSoundEvent("paimon_0");
     public static final RegistryObject<SoundEvent> paimon_1 = makeSoundEvent("paimon_1");
@@ -41,6 +41,6 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> paimon_thank_2 = makeSoundEvent("paimon_thank_2");
 
     private static RegistryObject<SoundEvent> makeSoundEvent(String name) {
-        return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(LibMisc.MOD_ID, name)));
+        return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Constants.MOD_ID, name)));
     }
 }

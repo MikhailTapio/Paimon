@@ -1,4 +1,4 @@
-package com.meteor.apaimon.common.core;
+package com.plr.paimon.common.core;
 
 import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;

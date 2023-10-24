@@ -1,8 +1,8 @@
-package com.meteor.apaimon.common.items;
+package com.plr.paimon.common.items;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.meteor.apaimon.common.core.EquipmentHandler;
+import com.plr.paimon.common.core.EquipmentHandler;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;

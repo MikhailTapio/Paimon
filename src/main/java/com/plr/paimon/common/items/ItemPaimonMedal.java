@@ -1,8 +1,8 @@
-package com.meteor.apaimon.common.items;
+package com.plr.paimon.common.items;
 
-import com.meteor.apaimon.common.core.ConfigHandler;
-import com.meteor.apaimon.common.core.ModSounds;
-import com.meteor.apaimon.common.entities.EntityPaimon;
+import com.plr.paimon.common.core.ConfigHandler;
+import com.plr.paimon.common.core.ModSounds;
+import com.plr.paimon.common.entities.EntityPaimon;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -63,8 +63,7 @@ public class ItemPaimonMedal extends ItemBauble {
             }
             int id = data.getInt(TAG_PAIMONID);
             Entity e = player.level().getEntity(id);
-            if (!player.getCooldowns().isOnCooldown(this) && !checkPaimonExistence && (
-                    e == null || !(e instanceof EntityPaimon))) {
+            if (!player.getCooldowns().isOnCooldown(this) && !checkPaimonExistence && (!(e instanceof EntityPaimon))) {
                 Vec3 lookVec = player.getLookAngle().normalize().scale(1.5D);
                 Vec3 spawnPoint = player.position().add(lookVec.x, 1.0D, lookVec.z);
                 EntityPaimon paimon = new EntityPaimon(player.level(), spawnPoint.x, spawnPoint.y, spawnPoint.z);

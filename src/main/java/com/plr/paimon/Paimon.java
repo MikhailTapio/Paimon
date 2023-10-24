@@ -1,15 +1,12 @@
-package com.meteor.apaimon;
+package com.plr.paimon;
 
-import com.meteor.apaimon.common.core.ConfigHandler;
-import com.meteor.apaimon.common.core.EquipmentHandler;
-import com.meteor.apaimon.common.core.IProxy;
-import com.meteor.apaimon.common.core.ModSounds;
-import com.meteor.apaimon.common.entities.ModEntities;
-import com.meteor.apaimon.common.items.ModItems;
-import com.meteor.apaimon.common.libs.LibMisc;
-import com.meteor.apaimon.common.tab.ModCreativeTabs;
+import com.plr.paimon.common.core.ConfigHandler;
+import com.plr.paimon.common.core.EquipmentHandler;
+import com.plr.paimon.common.core.ModSounds;
+import com.plr.paimon.common.entities.ModEntities;
+import com.plr.paimon.common.items.ModItems;
+import com.plr.paimon.common.tab.ModCreativeTabs;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -18,16 +15,11 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 
-@Mod(LibMisc.MOD_ID)
+@Mod(Constants.MOD_ID)
 public class Paimon {
-    public static IProxy proxy;
-
     public static boolean curiosLoaded = false;
 
     public Paimon() {
-        proxy = DistExecutor.unsafeRunForDist(() -> com.meteor.apaimon.client.ClientProxy::new, () -> com.meteor.apaimon.common.ServerProxy::new);
-        proxy.registerHandlers();
-
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ConfigHandler.CLIENT_SPEC);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigHandler.COMMON_SPEC);
 

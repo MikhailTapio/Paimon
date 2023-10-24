@@ -1,9 +1,9 @@
-package com.meteor.apaimon.common.entities;
+package com.plr.paimon.common.entities;
 
-import com.meteor.apaimon.common.core.ConfigHandler;
-import com.meteor.apaimon.common.core.EquipmentHandler;
-import com.meteor.apaimon.common.core.ModSounds;
-import com.meteor.apaimon.common.items.ModItems;
+import com.plr.paimon.common.core.ConfigHandler;
+import com.plr.paimon.common.core.EquipmentHandler;
+import com.plr.paimon.common.core.ModSounds;
+import com.plr.paimon.common.items.ModItems;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -21,8 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
-public class EntityPaimon
-        extends ThrowableProjectile {
+public class EntityPaimon extends ThrowableProjectile {
     private static final int TP_SOUNDS = 4;
     private static final int RANDOM_SOUNDS = 14;
     private static final int VANISH_SOUNDS = 7;
@@ -87,11 +86,8 @@ public class EntityPaimon
 
     public void tick() {
         Player player = null;
-
         super.tick();
-
         clearFire();
-
         if (getAnimation() > 0) {
             setAnimation(getAnimation() - 1);
             if (getAnimation() <= this.MAX_ANIMATION_TICKS) {

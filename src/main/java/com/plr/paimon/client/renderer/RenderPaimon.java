@@ -1,12 +1,12 @@
-package com.meteor.apaimon.client.renderer;
+package com.plr.paimon.client.renderer;
 
-import com.meteor.apaimon.client.ClientTickHandler;
-import com.meteor.apaimon.client.model.ModelPaimon;
-import com.meteor.apaimon.common.entities.EntityPaimon;
-import com.meteor.apaimon.common.libs.LibMisc;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import com.plr.paimon.Constants;
+import com.plr.paimon.client.event.ClientForgeEventHandler;
+import com.plr.paimon.client.model.ModelPaimon;
+import com.plr.paimon.common.entities.EntityPaimon;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -30,7 +30,7 @@ public class RenderPaimon extends EntityRenderer<EntityPaimon> {
         matrixStackIn.pushPose();
         matrixStackIn.translate(0.0D, 1.0D, 0.0D);
         if (!entityIn.getFollowing())
-            matrixStackIn.translate(0.0D, 0.06D * Math.sin((ClientTickHandler.ticksInGame * 0.1F)), 0.0D);
+            matrixStackIn.translate(0.0D, 0.06D * Math.sin((ClientForgeEventHandler.ticksInGame * 0.1F)), 0.0D);
         matrixStackIn.mulPose(Axis.YP.rotationDegrees(180.0F - entityYaw));
         matrixStackIn.mulPose(Axis.ZP.rotationDegrees(entityIn.getRotation()));
         matrixStackIn.mulPose(Axis.XP.rotationDegrees(entityIn.getPitch()));
@@ -48,6 +48,6 @@ public class RenderPaimon extends EntityRenderer<EntityPaimon> {
 
     @Override
     public ResourceLocation getTextureLocation(EntityPaimon entity) {
-        return new ResourceLocation(LibMisc.MOD_ID, "textures/entity/paimon.png");
+        return new ResourceLocation(Constants.MOD_ID, "textures/entity/paimon.png");
     }
 }

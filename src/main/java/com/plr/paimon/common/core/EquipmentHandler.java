@@ -1,6 +1,6 @@
-package com.meteor.apaimon.common.core;
+package com.plr.paimon.common.core;
 
-import com.meteor.apaimon.Paimon;
+import com.plr.paimon.Paimon;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

@@ -1,10 +1,10 @@
-package com.meteor.apaimon.client.model;
+package com.plr.paimon.client.model;
 
-import com.meteor.apaimon.client.ClientTickHandler;
-import com.meteor.apaimon.common.entities.EntityPaimon;
-import com.meteor.apaimon.common.libs.LibMisc;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.plr.paimon.Constants;
+import com.plr.paimon.client.event.ClientForgeEventHandler;
+import com.plr.paimon.common.entities.EntityPaimon;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
@@ -14,24 +14,24 @@ import net.minecraft.resources.ResourceLocation;
 
 
 public class ModelPaimon extends EntityModel<EntityPaimon> {
-    public static final ModelLayerLocation MODEL_LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(LibMisc.MOD_ID, "paimon"), "main");
+    public static final ModelLayerLocation MODEL_LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Constants.MOD_ID, "paimon"), "main");
 
-    private final ModelPart bone10;
-    private final ModelPart body;
-    private final ModelPart arms;
-    private final ModelPart bone8;
-    private final ModelPart bone9;
-    private final ModelPart legs;
-    private final ModelPart bone7;
-    private final ModelPart cube_r1;
-    private final ModelPart cube_r2;
-    private final ModelPart cube_r3;
-    private final ModelPart cube_r4;
-    private final ModelPart head;
-    private final ModelPart cube_r5;
-    private final ModelPart blink;
-    private final ModelPart bone6;
-    private final ModelPart bone5;
+    public final ModelPart bone10;
+    public final ModelPart body;
+    public final ModelPart arms;
+    public final ModelPart bone8;
+    public final ModelPart bone9;
+    public final ModelPart legs;
+    public final ModelPart bone7;
+    public final ModelPart cube_r1;
+    public final ModelPart cube_r2;
+    public final ModelPart cube_r3;
+    public final ModelPart cube_r4;
+    public final ModelPart head;
+    public final ModelPart cube_r5;
+    public final ModelPart blink;
+    public final ModelPart bone6;
+    public final ModelPart bone5;
 
     public ModelPaimon(ModelPart root) {
         this.bone10 = root.getChild("bone10");
@@ -236,17 +236,17 @@ public class ModelPaimon extends EntityModel<EntityPaimon> {
     @Override
     public void setupAnim(EntityPaimon entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         if (entity.getFollowing()) {
-            setRotationAngle(this.bone8, 0.0F, 0.0F, (float) Math.toRadians(-42.5D + 4.0D * Math.sin((ClientTickHandler.ticksInGame * 0.1F))));
-            setRotationAngle(this.bone9, 0.0F, 0.0F, (float) Math.toRadians(42.5D - 4.0D * Math.sin((ClientTickHandler.ticksInGame * 0.1F))));
+            setRotationAngle(this.bone8, 0.0F, 0.0F, (float) Math.toRadians(-42.5D + 4.0D * Math.sin((ClientForgeEventHandler.ticksInGame * 0.1F))));
+            setRotationAngle(this.bone9, 0.0F, 0.0F, (float) Math.toRadians(42.5D - 4.0D * Math.sin((ClientForgeEventHandler.ticksInGame * 0.1F))));
             setRotationAngle(this.body, (float) Math.toRadians(12.5D), 0.0F, 0.0F);
-            setRotationAngle(this.legs, (float) Math.toRadians(22.5D + 5.0D * Math.sin((ClientTickHandler.ticksInGame * 0.1F))), 0.0F, 0.0F);
-            setRotationAngle(this.bone7, (float) Math.toRadians(-2.5D + 2.5D * Math.sin((ClientTickHandler.ticksInGame * 0.1F))), 0.0F, 0.0F);
+            setRotationAngle(this.legs, (float) Math.toRadians(22.5D + 5.0D * Math.sin((ClientForgeEventHandler.ticksInGame * 0.1F))), 0.0F, 0.0F);
+            setRotationAngle(this.bone7, (float) Math.toRadians(-2.5D + 2.5D * Math.sin((ClientForgeEventHandler.ticksInGame * 0.1F))), 0.0F, 0.0F);
         } else {
-            setRotationAngle(this.bone8, 0.0F, 0.0F, (float) Math.toRadians(-27.5D + 4.0D * Math.sin((ClientTickHandler.ticksInGame * 0.1F))));
-            setRotationAngle(this.bone9, 0.0F, 0.0F, (float) Math.toRadians(27.5D - 4.0D * Math.sin((ClientTickHandler.ticksInGame * 0.1F))));
+            setRotationAngle(this.bone8, 0.0F, 0.0F, (float) Math.toRadians(-27.5D + 4.0D * Math.sin((ClientForgeEventHandler.ticksInGame * 0.1F))));
+            setRotationAngle(this.bone9, 0.0F, 0.0F, (float) Math.toRadians(27.5D - 4.0D * Math.sin((ClientForgeEventHandler.ticksInGame * 0.1F))));
             setRotationAngle(this.body, (float) Math.toRadians(2.5D), 0.0F, 0.0F);
-            setRotationAngle(this.legs, (float) Math.toRadians(-2.5D + 5.0D * Math.sin((ClientTickHandler.ticksInGame * 0.1F))), 0.0F, 0.0F);
+            setRotationAngle(this.legs, (float) Math.toRadians(-2.5D + 5.0D * Math.sin((ClientForgeEventHandler.ticksInGame * 0.1F))), 0.0F, 0.0F);
         }
-        this.blink.visible = (ClientTickHandler.ticksInGame % 40 >= 2 && ClientTickHandler.ticksInGame % 40 <= 5);
+        this.blink.visible = (ClientForgeEventHandler.ticksInGame % 40 >= 2 && ClientForgeEventHandler.ticksInGame % 40 <= 5);
     }
 }

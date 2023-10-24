@@ -1,7 +1,7 @@
-package com.meteor.apaimon.common.core;
+package com.plr.paimon.common.core;
 
 import com.google.common.collect.Multimap;
-import com.meteor.apaimon.common.items.ItemBauble;
+import com.plr.paimon.common.items.ItemBauble;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;

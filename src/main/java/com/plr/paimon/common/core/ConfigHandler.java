@@ -1,4 +1,4 @@
-package com.meteor.apaimon.common.core;
+package com.plr.paimon.common.core;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
@@ -8,11 +8,6 @@ public final class ConfigHandler {
     public static final ForgeConfigSpec CLIENT_SPEC;
     public static final Common COMMON;
     public static final ForgeConfigSpec COMMON_SPEC;
-
-    public static class Client {
-        public Client(ForgeConfigSpec.Builder builder) {
-        }
-    }
 
     static {
         Pair<Client, ForgeConfigSpec> pair = (new ForgeConfigSpec.Builder()).configure(Client::new);
@@ -34,6 +29,11 @@ public final class ConfigHandler {
             this.spawnWithMedal = builder.comment("Whether players will be rewarded with a Paimon Medal when they first join the world. Default is true.").define("spawnWithMedal", true);
             this.soundInterval = builder.comment("The interval of Paimon's speech. Default is 1200 ticks.").defineInRange("soundInterval", 1200, 0, 2147483647);
             builder.pop();
+        }
+    }
+
+    public static class Client {
+        public Client(ForgeConfigSpec.Builder builder) {
         }
     }
 }
