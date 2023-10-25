@@ -43,10 +43,11 @@ public class ItemPaimonMedal extends ItemBauble {
         tooltip.add(new TranslatableComponent("paimon.paimonmedalinfo").withStyle(ChatFormatting.ITALIC));
     }
 
+    @Override
     public void onWornTick(ItemStack stack, LivingEntity entity) {
         super.onWornTick(stack, entity);
+        if (entity.level.getGameTime() % 20 != 0) return;
         if (entity instanceof Player player) {
-
             CompoundTag nbtData = player.getPersistentData();
             CompoundTag data = nbtData.getCompound("PlayerPersisted");
             if (!data.contains(TAG_PAIMONID)) {
