@@ -9,7 +9,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 
 public class ModEntities {
-    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, Constants.MOD_ID);
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, Constants.MOD_ID);
 
     public static final RegistryObject<EntityType<EntityPaimon>> PAIMON = ENTITIES.register("paimon", () -> EntityType.Builder.<EntityPaimon>of(EntityPaimon::new, MobCategory.MISC)
             .sized(0.6F, 0.8F)

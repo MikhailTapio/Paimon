@@ -7,6 +7,7 @@ import com.plr.paimon.common.tab.ModCreativeTabs;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -39,7 +40,7 @@ public class ItemPaimonMedal extends ItemBauble {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag flags) {
         super.appendHoverText(stack, world, tooltip, flags);
-        tooltip.add(Component.translatable("paimon.paimonmedalinfo").withStyle(ChatFormatting.ITALIC));
+        tooltip.add(new TranslatableComponent("paimon.paimonmedalinfo").withStyle(ChatFormatting.ITALIC));
     }
 
     public void onWornTick(ItemStack stack, LivingEntity entity) {
@@ -104,7 +105,7 @@ public class ItemPaimonMedal extends ItemBauble {
         CompoundTag data = nbtData.getCompound("PlayerPersisted");
         if (ConfigHandler.COMMON.spawnWithMedal.get() &&
                 !data.getBoolean(TAG_PAIMONREWARD)) {
-            ItemHandlerHelper.giveItemToPlayer(event.getEntity(), new ItemStack(ModItems.paimonmedal.get()));
+            ItemHandlerHelper.giveItemToPlayer(event.getPlayer(), new ItemStack(ModItems.paimonmedal.get()));
             data.putBoolean(TAG_PAIMONREWARD, true);
             nbtData.put("PlayerPersisted", data);
         }
