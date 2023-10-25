@@ -41,6 +41,6 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> paimon_thank_2 = makeSoundEvent("paimon_thank_2");
 
     private static RegistryObject<SoundEvent> makeSoundEvent(String name) {
-        return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Constants.MOD_ID, name)));
+        return SOUNDS.register(name, () -> new SoundEvent(new ResourceLocation(Constants.MOD_ID, name)));
     }
 }

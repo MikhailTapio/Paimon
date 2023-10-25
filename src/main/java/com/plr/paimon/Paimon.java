@@ -5,7 +5,6 @@ import com.plr.paimon.common.core.EquipmentHandler;
 import com.plr.paimon.common.core.ModSounds;
 import com.plr.paimon.common.entities.ModEntities;
 import com.plr.paimon.common.items.ModItems;
-import com.plr.paimon.common.tab.ModCreativeTabs;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -28,7 +27,6 @@ public class Paimon {
         ModSounds.SOUNDS.register(modBus);
         ModItems.ITEMS.register(modBus);
         ModEntities.ENTITIES.register(modBus);
-        ModCreativeTabs.TABS.register(modBus);
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {

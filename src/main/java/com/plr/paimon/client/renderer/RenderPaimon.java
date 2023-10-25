@@ -2,7 +2,7 @@ package com.plr.paimon.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
+import com.mojang.math.Vector3f;
 import com.plr.paimon.Constants;
 import com.plr.paimon.client.event.ClientForgeEventHandler;
 import com.plr.paimon.client.model.ModelPaimon;
@@ -31,9 +31,9 @@ public class RenderPaimon extends EntityRenderer<EntityPaimon> {
         matrixStackIn.translate(0.0D, 1.0D, 0.0D);
         if (!entityIn.getFollowing())
             matrixStackIn.translate(0.0D, 0.06D * Math.sin((ClientForgeEventHandler.ticksInGame * 0.1F)), 0.0D);
-        matrixStackIn.mulPose(Axis.YP.rotationDegrees(180.0F - entityYaw));
-        matrixStackIn.mulPose(Axis.ZP.rotationDegrees(entityIn.getRotation()));
-        matrixStackIn.mulPose(Axis.XP.rotationDegrees(entityIn.getPitch()));
+        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180.0F - entityYaw));
+        matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(entityIn.getRotation()));
+        matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(entityIn.getPitch()));
 
         float s = 0.65F;
         this.paimonModel.setupAnim(entityIn, partialTicks, 0.0F, -0.1F, 0.0F, 0.0F);

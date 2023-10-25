@@ -3,6 +3,7 @@ package com.plr.paimon.common.items;
 import com.plr.paimon.common.core.ConfigHandler;
 import com.plr.paimon.common.core.ModSounds;
 import com.plr.paimon.common.entities.EntityPaimon;
+import com.plr.paimon.common.tab.ModCreativeTabs;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -30,7 +31,7 @@ public class ItemPaimonMedal extends ItemBauble {
     public static String TAG_PAIMONREWARD = "paimonreward";
 
     public ItemPaimonMedal() {
-        super(new Properties().rarity(Rarity.EPIC).stacksTo(1).setNoRepair());
+        super(new Properties().rarity(Rarity.EPIC).stacksTo(1).setNoRepair().tab(ModCreativeTabs.PAIMON));
         MinecraftForge.EVENT_BUS.addListener(this::onPlayerJoinWorld);
         MinecraftForge.EVENT_BUS.addListener(this::keepCurioDrops);
     }
@@ -53,7 +54,7 @@ public class ItemPaimonMedal extends ItemBauble {
             boolean checkPaimonExistence = false;
             int RANGE = 5;
             AABB axis = new AABB(player.blockPosition().offset(-RANGE, -RANGE, -RANGE), player.blockPosition().offset(RANGE, RANGE, RANGE));
-            List<EntityPaimon> paimons = player.level().getEntitiesOfClass(EntityPaimon.class, axis);
+            List<EntityPaimon> paimons = player.level.getEntitiesOfClass(EntityPaimon.class, axis);
             for (EntityPaimon paimon : paimons) {
                 if (paimon.getOwnerID() == player.getId()) {
                     checkPaimonExistence = true;
@@ -62,16 +63,16 @@ public class ItemPaimonMedal extends ItemBauble {
                 }
             }
             int id = data.getInt(TAG_PAIMONID);
-            Entity e = player.level().getEntity(id);
+            Entity e = player.level.getEntity(id);
             if (!player.getCooldowns().isOnCooldown(this) && !checkPaimonExistence && (!(e instanceof EntityPaimon))) {
                 Vec3 lookVec = player.getLookAngle().normalize().scale(1.5D);
                 Vec3 spawnPoint = player.position().add(lookVec.x, 1.0D, lookVec.z);
-                EntityPaimon paimon = new EntityPaimon(player.level(), spawnPoint.x, spawnPoint.y, spawnPoint.z);
+                EntityPaimon paimon = new EntityPaimon(player.level, spawnPoint.x, spawnPoint.y, spawnPoint.z);
                 paimon.setOwnerID(player.getId());
                 paimon.faceEntity(player, 360.0F, 360.0F);
-                if (!player.level().isClientSide) {
-                    player.level().addFreshEntity(paimon);
-                    randomSpawnSound(paimon, player.level().random.nextInt(2));
+                if (!player.level.isClientSide) {
+                    player.level.addFreshEntity(paimon);
+                    randomSpawnSound(paimon, player.level.random.nextInt(2));
                     player.getCooldowns().addCooldown(this, 100);
                 }
                 data.putInt(TAG_PAIMONID, paimon.getId());

@@ -92,13 +92,13 @@ public class EntityPaimon extends ThrowableProjectile {
             setAnimation(getAnimation() - 1);
             if (getAnimation() <= this.MAX_ANIMATION_TICKS) {
                 setDeltaMovement(0.0D, 0.08D, 0.0D);
-                if (this.level().isClientSide) {
+                if (this.level.isClientSide) {
                     this.i += 30;
                     float r = 1.0F;
                     double x = getX() + r * Math.cos(Math.toRadians(this.i));
                     double y = getY() + ((this.i / 24.0) * 0.05);
                     double z = getZ() + r * Math.sin(Math.toRadians(this.i));
-                    this.level().addParticle(ParticleTypes.END_ROD, x, y, z, 0.0D, -0.04D, 0.0D);
+                    this.level.addParticle(ParticleTypes.END_ROD, x, y, z, 0.0D, -0.04D, 0.0D);
                 }
                 Vec3 v = position().add(getLookAngle().yRot((float) Math.toRadians(60.0D)));
                 facePos(v.x, v.y, v.z);
@@ -112,25 +112,25 @@ public class EntityPaimon extends ThrowableProjectile {
             setTPCD(getTPCD() - 1);
         }
         if (getOwnerID() != -1) {
-            Entity owner = this.level().getEntity(getOwnerID());
+            Entity owner = this.level.getEntity(getOwnerID());
             if (owner instanceof Player) {
                 player = (Player) owner;
             }
         }
 
         if (player == null || EquipmentHandler.findOrEmpty(ModItems.paimonmedal.get(), player).isEmpty()) {
-            if (this.level().isClientSide)
+            if (this.level.isClientSide)
                 for (this.i = 0; this.i < 720; this.i += 24) {
                     float r = 0.6F;
                     double x = getX() + r * Math.cos(Math.toRadians(this.i));
                     double y = getY() - 0.25D + ((this.i / 15.0) * 0.05);
                     double z = getZ() + r * Math.sin(Math.toRadians(this.i));
-                    this.level().addParticle(ParticleTypes.END_ROD, x, y, z, 0.0D, -0.04D, 0.0D);
+                    this.level.addParticle(ParticleTypes.END_ROD, x, y, z, 0.0D, -0.04D, 0.0D);
                 }
-            if (!this.level().isClientSide) {
+            if (!this.level.isClientSide) {
                 setVoiceCD(200);
                 setTPCD(200);
-                randomVanishSound(this.level().random.nextInt(7));
+                randomVanishSound(this.level.random.nextInt(7));
             }
             discard();
 
@@ -157,8 +157,8 @@ public class EntityPaimon extends ThrowableProjectile {
             teleportTo(targetPos.x, targetPos.y, targetPos.z);
             setDeltaMovement(Vec3.ZERO);
             if (getTPCD() == 0) {
-                if (!this.level().isClientSide)
-                    randomTPSound(this.level().random.nextInt(4));
+                if (!this.level.isClientSide)
+                    randomTPSound(this.level.random.nextInt(4));
                 setTPCD(400);
                 setVoiceCD(getTPCD() + 300);
             }
@@ -169,8 +169,8 @@ public class EntityPaimon extends ThrowableProjectile {
         this.i = 0;
 
         if (getVoiceCD() == 0) {
-            if (!this.level().isClientSide)
-                randomSound(this.level().random.nextInt(14));
+            if (!this.level.isClientSide)
+                randomSound(this.level.random.nextInt(14));
             setVoiceCD((int) (ConfigHandler.COMMON.soundInterval.get() + Math.random() * 400.0D));
             setTPCD(getTPCD() + 200);
         }
@@ -192,8 +192,8 @@ public class EntityPaimon extends ThrowableProjectile {
                 setDeltaMovement(motion);
                 faceEntity(player, 360.0F, 360.0F);
                 if (this.tickCount % 12 == 0 &&
-                        this.level().isClientSide) {
-                    this.level().addParticle(ParticleTypes.END_ROD, getX() - motion.x, getY(), getZ() - motion.z, -motion.x, -0.05D, -motion.z);
+                        this.level.isClientSide) {
+                    this.level.addParticle(ParticleTypes.END_ROD, getX() - motion.x, getY(), getZ() - motion.z, -motion.x, -0.05D, -motion.z);
                 }
             } else {
                 setDeltaMovement(Vec3.ZERO);
@@ -224,9 +224,9 @@ public class EntityPaimon extends ThrowableProjectile {
 
             if (stack.getItem().isEdible()) {
 
-                if (!this.level().isClientSide) {
+                if (!this.level.isClientSide) {
                     if (getVoiceCD() <= ConfigHandler.COMMON.soundInterval.get()) {
-                        randomThankSound(this.level().random.nextInt(3));
+                        randomThankSound(this.level.random.nextInt(3));
                         setVoiceCD((int) (getVoiceCD() + ConfigHandler.COMMON.soundInterval.get() * 0.5D));
                     }
                     if (!player.getAbilities().instabuild) {
@@ -234,7 +234,7 @@ public class EntityPaimon extends ThrowableProjectile {
                     }
                 } else {
                     for (int i = 0; i < 5; i++) {
-                        this.level().addParticle(ParticleTypes.HEART, getX() - 0.25D + 0.5D * Math.random(), getY() + 0.5D + 0.30000001192092896D * Math.random(), getZ() - 0.25D + 0.5D * Math.random(), 0.0D, 0.029999999329447746D, 0.0D);
+                        this.level.addParticle(ParticleTypes.HEART, getX() - 0.25D + 0.5D * Math.random(), getY() + 0.5D + 0.30000001192092896D * Math.random(), getZ() - 0.25D + 0.5D * Math.random(), 0.0D, 0.029999999329447746D, 0.0D);
                     }
                 }
                 return InteractionResult.SUCCESS;
