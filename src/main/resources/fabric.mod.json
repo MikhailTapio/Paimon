@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "paimon",
+  "version": "${version}",
+  "name": "Paimon",
+  "description": "Add a cute Paimon to minecraft!",
+  "authors": [
+    "ExtraMeteorP",
+    "GoldYgg",
+    "Tapio"
+  ],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.plr.paimon.client.PaimonClient"
+    ],
+    "main": [
+      "com.plr.paimon.Paimon"
+    ]
+  },
+  "mixins": [
+    "paimon.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": "*",
+    "fabric": "*",
+    "minecraft": "*",
+    "trinkets": "*"
+  }
+}
