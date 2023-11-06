@@ -32,14 +32,14 @@ public class CurioIntegration
 
     protected ItemStack findItem(Item item, LivingEntity living) {
         final AtomicReference<ItemStack> r = new AtomicReference<>(ItemStack.EMPTY);
-        CuriosApi.getCuriosInventory(living).ifPresent(c -> c.findFirstCurio(item).ifPresent(s -> r.set(s.stack())));
+        CuriosApi.getCuriosHelper().findFirstCurio(living, item).ifPresent(s -> r.set(s.stack()));
         return r.get();
     }
 
 
     protected ItemStack findItem(Predicate<ItemStack> pred, LivingEntity living) {
         final AtomicReference<ItemStack> r = new AtomicReference<>(ItemStack.EMPTY);
-        CuriosApi.getCuriosInventory(living).ifPresent(c -> c.findFirstCurio(pred).ifPresent(s -> r.set(s.stack())));
+        CuriosApi.getCuriosHelper().findFirstCurio(living, pred).ifPresent(s -> r.set(s.stack()));
         return r.get();
     }
 
