@@ -138,13 +138,16 @@ public class EntityPaimon extends ThrowableProjectile {
         }
         Vec3 playerPos = player.position();
         Vec3 lookVec = (new Vec3((player.getLookAngle()).x, 0.0D, (player.getLookAngle()).z)).normalize().yRot((float) Math.toRadians(30.0D)).reverse().scale(1.1D);
-        Vec3 targetPos = playerPos.add(lookVec.x, lookVec.y, lookVec.z).add(0.0D, 1.2D, 0.0D);
+        final boolean edge = lookVec.x == .0D && lookVec.y == .0D;
+        Vec3 targetPos = playerPos.add(lookVec.x, lookVec.y, lookVec.z).add(0.0D, edge ? 2.5D : 1.2D, 0.0D);
 
-        if (player.isCrouching() && player.getMainHandItem().getItem().isEdible()) {
-            targetPos = playerPos.add((player.getLookAngle()).x, 1.2D, (player.getLookAngle()).z);
-        } else if (player.getOffhandItem().getItem().isEdible()) {
-            lookVec = lookVec.reverse();
-            targetPos = playerPos.add(lookVec.x, lookVec.y, lookVec.z).add(0.0D, 1.2D, 0.0D);
+        if (player.isCrouching()) {
+            if (player.getMainHandItem().getItem().isEdible()) {
+                targetPos = playerPos.add((player.getLookAngle()).x, edge ? 2.5D : 1.2D, (player.getLookAngle()).z);
+            } else if (player.getOffhandItem().getItem().isEdible()) {
+                lookVec = lookVec.reverse();
+                targetPos = playerPos.add(lookVec.x, lookVec.y, lookVec.z).add(0.0D, edge ? 2.5D : 1.2D, 0.0D);
+            }
         }
 
         if (position().distanceTo(targetPos) >= 16.0D) {
