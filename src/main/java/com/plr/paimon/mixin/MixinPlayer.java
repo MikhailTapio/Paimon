@@ -7,44 +7,47 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Player.class)
 public abstract class MixinPlayer extends LivingEntity implements IPaimonOwner {
-    private int paimonEntityId = -1;
-    private boolean medalAcquired = false;
+    @Unique
+    private int paimon$paimonEntityId = -1;
+    @Unique
+    private boolean paimon$medalAcquired = false;
 
     protected MixinPlayer(EntityType<? extends LivingEntity> entityType, Level level) {
         super(entityType, level);
     }
 
     @Override
-    public void setPaimonEntityId(int paimonEntityId) {
-        this.paimonEntityId = paimonEntityId;
+    public void paimon$setPaimonEntityId(int paimon$paimonEntityId) {
+        this.paimon$paimonEntityId = paimon$paimonEntityId;
     }
 
     @Override
-    public int getPaimonEntityId() {
-        return paimonEntityId;
+    public int paimon$getPaimonEntityId() {
+        return paimon$paimonEntityId;
     }
 
     @Override
-    public void setMedalAcquired(boolean medalAcquired) {
-        this.medalAcquired = medalAcquired;
+    public void paimon$setMedalAcquired(boolean paimon$medalAcquired) {
+        this.paimon$medalAcquired = paimon$medalAcquired;
     }
 
     @Override
-    public boolean medalAcquired() {
-        return medalAcquired;
+    public boolean paimon$medalAcquired() {
+        return paimon$medalAcquired;
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("HEAD"))
     private void inject$writeCustomDataToNbt(CompoundTag nbt, CallbackInfo ci) {
         final CompoundTag tag = new CompoundTag();
-        tag.putInt("paimon_id", paimonEntityId);
-        tag.putBoolean("medal_acquired", medalAcquired);
+        tag.putInt("paimon_id", paimon$paimonEntityId);
+        tag.putBoolean("medal_acquired", paimon$medalAcquired);
         nbt.put("paimon_tag", tag);
     }
 
@@ -52,7 +55,7 @@ public abstract class MixinPlayer extends LivingEntity implements IPaimonOwner {
     private void inject$readCustomDataFromNbt(CompoundTag nbt, CallbackInfo ci) {
         if (!nbt.contains("paimon_tag")) return;
         final CompoundTag tag = nbt.getCompound("paimon_tag");
-        paimonEntityId = tag.getInt("paimon_id");
-        medalAcquired = tag.getBoolean("medal_acquired");
+        paimon$paimonEntityId = tag.getInt("paimon_id");
+        paimon$medalAcquired = tag.getBoolean("medal_acquired");
     }
 }
