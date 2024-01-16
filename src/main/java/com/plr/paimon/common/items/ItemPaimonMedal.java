@@ -3,7 +3,6 @@ package com.plr.paimon.common.items;
 import com.plr.paimon.common.core.ModSounds;
 import com.plr.paimon.common.entities.EntityPaimon;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
@@ -25,7 +24,6 @@ import java.util.List;
 
 public class ItemPaimonMedal extends ItemBauble {
     public static String TAG_PAIMONID = "paimon_id";
-    public static String TAG_PAIMONREWARD = "paimonreward";
 
     public ItemPaimonMedal() {
         super(new Properties().rarity(Rarity.EPIC).stacksTo(1).setNoRepair());
@@ -84,11 +82,6 @@ public class ItemPaimonMedal extends ItemBauble {
         if (!data.contains(TAG_PAIMONID)) return;
         final Level level = player.level();
         if (!(level.getEntity(data.getInt(TAG_PAIMONID)) instanceof EntityPaimon paimon)) return;
-        if (level.isClientSide) level.addParticle(
-                ParticleTypes.END_ROD,
-                paimon.getX(), paimon.getY(), paimon.getZ(),
-                0.0D, -0.04D, 0.0D
-        );
         paimon.discard();
         data.putInt(TAG_PAIMONID, -1);
     }
