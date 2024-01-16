@@ -1,5 +1,6 @@
 package com.plr.paimon.common.event;
 
+import com.plr.paimon.common.core.ConfigHandler;
 import com.plr.paimon.common.items.ModItems;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.ExperienceOrb;
@@ -8,8 +9,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -45,5 +48,17 @@ public class ForgeEventHandler {
                 ThreadLocalRandom.current().nextInt(6) + 1));
         data.putBoolean(TAG_PAIMONREWARD, true);
         tag.put("PlayerPersisted", data);
+    }
+
+    @SubscribeEvent
+    public static void onPlayerJoinWorld(PlayerEvent.PlayerLoggedInEvent event) {
+        CompoundTag nbtData = event.getEntity().getPersistentData();
+        CompoundTag data = nbtData.getCompound("PlayerPersisted");
+        if (ConfigHandler.COMMON.spawnWithMedal.get() &&
+                !data.getBoolean(TAG_PAIMONREWARD)) {
+            ItemHandlerHelper.giveItemToPlayer(event.getEntity(), ModItems.paimonmedal.get().getDefaultInstance());
+            data.putBoolean(TAG_PAIMONREWARD, true);
+            nbtData.put("PlayerPersisted", data);
+        }
     }
 }
