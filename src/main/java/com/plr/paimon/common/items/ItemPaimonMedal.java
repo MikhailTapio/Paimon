@@ -71,6 +71,16 @@ public class ItemPaimonMedal extends TrinketItem {
         return TrinketEnums.DropRule.KEEP;
     }
 
+    @Override
+    public void onUnequip(ItemStack stack, SlotReference slot, LivingEntity entity) {
+        super.onUnequip(stack, slot, entity);
+        if (!(entity instanceof Player player)) return;
+        final IPaimonOwner owner = (IPaimonOwner) player;
+        if (!(player.level().getEntity(owner.paimon$getPaimonEntityId()) instanceof EntityPaimon paimon)) return;
+        paimon.discard();
+        owner.paimon$setPaimonEntityId(-1);
+    }
+
     public float getSoundVolume() {
         return 0.25F;
     }
