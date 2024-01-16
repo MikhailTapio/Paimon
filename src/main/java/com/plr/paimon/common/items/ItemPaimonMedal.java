@@ -1,6 +1,5 @@
 package com.plr.paimon.common.items;
 
-import com.plr.paimon.common.core.ConfigHandler;
 import com.plr.paimon.common.core.ModSounds;
 import com.plr.paimon.common.entities.EntityPaimon;
 import com.plr.paimon.common.tab.ModCreativeTabs;
@@ -17,9 +16,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.event.DropRulesEvent;
 import top.theillusivec4.curios.api.type.capability.ICurio;
@@ -28,11 +25,9 @@ import java.util.List;
 
 public class ItemPaimonMedal extends ItemBauble {
     public static String TAG_PAIMONID = "paimon_id";
-    public static String TAG_PAIMONREWARD = "paimonreward";
 
     public ItemPaimonMedal() {
         super(new Properties().rarity(Rarity.EPIC).stacksTo(1).setNoRepair().tab(ModCreativeTabs.PAIMON));
-        MinecraftForge.EVENT_BUS.addListener(this::onPlayerJoinWorld);
         MinecraftForge.EVENT_BUS.addListener(this::keepCurioDrops);
     }
 
@@ -80,6 +75,18 @@ public class ItemPaimonMedal extends ItemBauble {
         }
     }
 
+    @Override
+    public void onUnequipped(ItemStack stack, LivingEntity entity) {
+        super.onUnequipped(stack, entity);
+        if (!(entity instanceof Player player)) return;
+        CompoundTag nbtData = player.getPersistentData();
+        CompoundTag data = nbtData.getCompound("PlayerPersisted");
+        if (!data.contains(TAG_PAIMONID)) return;
+        final Level level = player.level;
+        if (!(level.getEntity(data.getInt(TAG_PAIMONID)) instanceof EntityPaimon paimon)) return;
+        paimon.discard();
+        data.putInt(TAG_PAIMONID, -1);
+    }
 
     public float getSoundVolume() {
         return 0.25F;
@@ -95,18 +102,5 @@ public class ItemPaimonMedal extends ItemBauble {
     @SubscribeEvent
     public void keepCurioDrops(DropRulesEvent event) {
         event.addOverride(stack -> (stack.getItem() == this), ICurio.DropRule.ALWAYS_KEEP);
-    }
-
-
-    @SubscribeEvent
-    public void onPlayerJoinWorld(PlayerEvent.PlayerLoggedInEvent event) {
-        CompoundTag nbtData = event.getEntity().getPersistentData();
-        CompoundTag data = nbtData.getCompound("PlayerPersisted");
-        if (ConfigHandler.COMMON.spawnWithMedal.get() &&
-                !data.getBoolean(TAG_PAIMONREWARD)) {
-            ItemHandlerHelper.giveItemToPlayer(event.getEntity(), new ItemStack(ModItems.paimonmedal.get()));
-            data.putBoolean(TAG_PAIMONREWARD, true);
-            nbtData.put("PlayerPersisted", data);
-        }
     }
 }

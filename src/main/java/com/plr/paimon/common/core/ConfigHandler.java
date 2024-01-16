@@ -26,7 +26,7 @@ public final class ConfigHandler {
 
         public Common(ForgeConfigSpec.Builder builder) {
             builder.push("common");
-            this.spawnWithMedal = builder.comment("Whether players will be rewarded with a Paimon Medal when they first join the world. Default is true.").define("spawnWithMedal", true);
+            this.spawnWithMedal = builder.comment("Whether players will be rewarded with a Paimon Medal when they first join the world. Default is true.").define("spawnWithMedal", false);
             this.soundInterval = builder.comment("The interval of Paimon's speech. Default is 1200 ticks.").defineInRange("soundInterval", 1200, 0, 2147483647);
             builder.pop();
         }
