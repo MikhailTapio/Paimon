@@ -49,7 +49,7 @@ public class ItemPaimonMedal extends TrinketItem {
                 }
             }
             final IPaimonOwner owner = (IPaimonOwner) player;
-            Entity e = player.level().getEntity(owner.getPaimonEntityId());
+            Entity e = player.level().getEntity(owner.paimon$getPaimonEntityId());
             if (!player.getCooldowns().isOnCooldown(this) && !checkPaimonExistence && (!(e instanceof EntityPaimon))) {
                 Vec3 lookVec = player.getLookAngle().normalize().scale(1.5D);
                 Vec3 spawnPoint = player.position().add(lookVec.x, 1.0D, lookVec.z);
@@ -61,7 +61,7 @@ public class ItemPaimonMedal extends TrinketItem {
                     randomSpawnSound(paimon, player.level().random.nextInt(2));
                     player.getCooldowns().addCooldown(this, 100);
                 }
-                owner.setPaimonEntityId(paimon.getId());
+                owner.paimon$setPaimonEntityId(paimon.getId());
             }
         }
     }
@@ -69,6 +69,16 @@ public class ItemPaimonMedal extends TrinketItem {
     @Override
     public TrinketEnums.DropRule getDropRule(ItemStack stack, SlotReference slot, LivingEntity entity) {
         return TrinketEnums.DropRule.KEEP;
+    }
+
+    @Override
+    public void onUnequip(ItemStack stack, SlotReference slot, LivingEntity entity) {
+        super.onUnequip(stack, slot, entity);
+        if (!(entity instanceof Player player)) return;
+        final IPaimonOwner owner = (IPaimonOwner) player;
+        if (!(player.level().getEntity(owner.paimon$getPaimonEntityId()) instanceof EntityPaimon paimon)) return;
+        paimon.discard();
+        owner.paimon$setPaimonEntityId(-1);
     }
 
     public float getSoundVolume() {

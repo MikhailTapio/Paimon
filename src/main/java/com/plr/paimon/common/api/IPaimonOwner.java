@@ -1,11 +1,11 @@
 package com.plr.paimon.common.api;
 
 public interface IPaimonOwner {
-    void setPaimonEntityId(int paimonEntityId);
+    void paimon$setPaimonEntityId(int paimonEntityId);
 
-    int getPaimonEntityId();
+    int paimon$getPaimonEntityId();
 
-    void setMedalAcquired(boolean medalAcquired);
+    void paimon$setMedalAcquired(boolean medalAcquired);
 
-    boolean medalAcquired();
+    boolean paimon$medalAcquired();
 }
