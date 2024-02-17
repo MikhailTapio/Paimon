@@ -12,7 +12,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -36,39 +35,27 @@ public class ItemPaimonMedal extends ItemBauble {
         tooltip.add(Component.translatable("paimon.paimonmedalinfo").withStyle(ChatFormatting.ITALIC));
     }
 
+    @Override
     public void onWornTick(ItemStack stack, LivingEntity entity) {
         super.onWornTick(stack, entity);
-        if (entity.level().getGameTime() % 20 != 0) return;
+        if (entity.level().isClientSide() || entity.level().getGameTime() % 20 != 0) return;
         if (entity instanceof Player player) {
             CompoundTag nbtData = player.getPersistentData();
             CompoundTag data = nbtData.getCompound("PlayerPersisted");
             if (!data.contains(TAG_PAIMONID)) {
                 data.putInt(TAG_PAIMONID, -1);
             }
-            boolean checkPaimonExistence = false;
-            int RANGE = 5;
-            AABB axis = new AABB(player.blockPosition().offset(-RANGE, -RANGE, -RANGE), player.blockPosition().offset(RANGE, RANGE, RANGE));
-            List<EntityPaimon> paimons = player.level().getEntitiesOfClass(EntityPaimon.class, axis);
-            for (EntityPaimon paimon : paimons) {
-                if (paimon.getOwnerID() == player.getId()) {
-                    checkPaimonExistence = true;
-
-                    break;
-                }
-            }
             int id = data.getInt(TAG_PAIMONID);
             Entity e = player.level().getEntity(id);
-            if (!player.getCooldowns().isOnCooldown(this) && !checkPaimonExistence && (!(e instanceof EntityPaimon))) {
+            if (!player.getCooldowns().isOnCooldown(this) && (!(e instanceof EntityPaimon))) {
                 Vec3 lookVec = player.getLookAngle().normalize().scale(1.5D);
                 Vec3 spawnPoint = player.position().add(lookVec.x, 1.0D, lookVec.z);
                 EntityPaimon paimon = new EntityPaimon(player.level(), spawnPoint.x, spawnPoint.y, spawnPoint.z);
                 paimon.setOwnerID(player.getId());
                 paimon.faceEntity(player, 360.0F, 360.0F);
-                if (!player.level().isClientSide) {
-                    player.level().addFreshEntity(paimon);
-                    randomSpawnSound(paimon, player.level().random.nextInt(2));
-                    player.getCooldowns().addCooldown(this, 100);
-                }
+                player.level().addFreshEntity(paimon);
+                randomSpawnSound(paimon, player.level().random.nextInt(2));
+                player.getCooldowns().addCooldown(this, 100);
                 data.putInt(TAG_PAIMONID, paimon.getId());
             }
         }
@@ -78,10 +65,11 @@ public class ItemPaimonMedal extends ItemBauble {
     public void onUnequipped(ItemStack stack, LivingEntity entity) {
         super.onUnequipped(stack, entity);
         if (!(entity instanceof Player player)) return;
+        final Level level = player.level();
+        if (level.isClientSide()) return;
         CompoundTag nbtData = player.getPersistentData();
         CompoundTag data = nbtData.getCompound("PlayerPersisted");
         if (!data.contains(TAG_PAIMONID)) return;
-        final Level level = player.level();
         if (!(level.getEntity(data.getInt(TAG_PAIMONID)) instanceof EntityPaimon paimon)) return;
         paimon.discard();
         data.putInt(TAG_PAIMONID, -1);
