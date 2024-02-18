@@ -22,6 +22,7 @@ public class ForgeEventHandler {
 
     @SubscribeEvent
     public static void onFished(ItemFishedEvent event) {
+        if (!ConfigHandler.COMMON.getMedalByFishing.get()) return;
         final Player player = event.getPlayer();
         final CompoundTag tag = player.getPersistentData();
         final CompoundTag data = tag.getCompound("PlayerPersisted");
@@ -52,10 +53,10 @@ public class ForgeEventHandler {
 
     @SubscribeEvent
     public static void onPlayerJoinWorld(PlayerEvent.PlayerLoggedInEvent event) {
+        if (!ConfigHandler.COMMON.spawnWithMedal.get()) return;
         CompoundTag nbtData = event.getEntity().getPersistentData();
         CompoundTag data = nbtData.getCompound("PlayerPersisted");
-        if (ConfigHandler.COMMON.spawnWithMedal.get() &&
-                !data.getBoolean(TAG_PAIMONREWARD)) {
+        if (!data.getBoolean(TAG_PAIMONREWARD)) {
             ItemHandlerHelper.giveItemToPlayer(event.getPlayer(), ModItems.paimonmedal.get().getDefaultInstance());
             data.putBoolean(TAG_PAIMONREWARD, true);
             nbtData.put("PlayerPersisted", data);
