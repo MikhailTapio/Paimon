@@ -8,12 +8,9 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.fml.InterModComms;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.CuriosCapability;
 import top.theillusivec4.curios.api.SlotContext;
-import top.theillusivec4.curios.api.SlotTypePreset;
 import top.theillusivec4.curios.api.type.capability.ICurio;
 
 import java.util.UUID;
@@ -23,23 +20,16 @@ import java.util.function.Predicate;
 
 public class CurioIntegration
         extends EquipmentHandler {
-    @SuppressWarnings("all")
-    public static void sendImc(InterModEnqueueEvent evt) {
-        // TODO: Use datapack-driven after 1.22
-        InterModComms.sendTo("curios", "register_type", () -> SlotTypePreset.CHARM.getMessageBuilder().build());
-    }
-
-
     protected ItemStack findItem(Item item, LivingEntity living) {
         final AtomicReference<ItemStack> r = new AtomicReference<>(ItemStack.EMPTY);
-        CuriosApi.getCuriosHelper().findFirstCurio(living, item).ifPresent(s -> r.set(s.stack()));
+        CuriosApi.getCuriosInventory(living).ifPresent(c -> c.findFirstCurio(item).ifPresent(s -> r.set(s.stack())));
         return r.get();
     }
 
 
     protected ItemStack findItem(Predicate<ItemStack> pred, LivingEntity living) {
         final AtomicReference<ItemStack> r = new AtomicReference<>(ItemStack.EMPTY);
-        CuriosApi.getCuriosHelper().findFirstCurio(living, pred).ifPresent(s -> r.set(s.stack()));
+        CuriosApi.getCuriosInventory(living).ifPresent(c -> c.findFirstCurio(pred).ifPresent(s -> r.set(s.stack())));
         return r.get();
     }
 

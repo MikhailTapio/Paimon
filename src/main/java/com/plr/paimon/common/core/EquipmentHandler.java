@@ -6,7 +6,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
 import java.util.function.Predicate;
@@ -18,7 +17,6 @@ public abstract class EquipmentHandler {
     public static void init() {
         if (Paimon.curiosLoaded) {
             instance = new CurioIntegration();
-            FMLJavaModLoadingContext.get().getModEventBus().addListener(CurioIntegration::sendImc);
         } else {
             instance = new InventoryEquipmentHandler();
         }
