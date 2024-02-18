@@ -1,6 +1,7 @@
 package com.plr.paimon.mixin;
 
 import com.plr.paimon.common.api.IPaimonOwner;
+import com.plr.paimon.common.core.ConfigHandler;
 import com.plr.paimon.common.items.ModItems;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -38,6 +39,7 @@ public abstract class MixinFishingHook extends Entity {
             cancellable = true
     )
     private void inject$retrieve(ItemStack itemStack, CallbackInfoReturnable<Integer> cir) {
+        if (!ConfigHandler.COMMON.getMedalByFishing.get()) return;
         final Player player = getPlayerOwner();
         if (player == null) return;
         final IPaimonOwner owner = (IPaimonOwner) player;

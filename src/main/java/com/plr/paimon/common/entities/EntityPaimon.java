@@ -1,14 +1,13 @@
 package com.plr.paimon.common.entities;
 
 import com.plr.paimon.common.core.ConfigHandler;
-import com.plr.paimon.common.core.EquipmentHandler;
 import com.plr.paimon.common.core.ModSounds;
-import com.plr.paimon.common.items.ModItems;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -84,6 +83,7 @@ public class EntityPaimon extends ThrowableProjectile {
         setDeltaMovement(Vec3.ZERO);
     }
 
+    @Override
     public void tick() {
         Player player = null;
         super.tick();
@@ -92,13 +92,13 @@ public class EntityPaimon extends ThrowableProjectile {
             setAnimation(getAnimation() - 1);
             if (getAnimation() <= this.MAX_ANIMATION_TICKS) {
                 setDeltaMovement(0.0D, 0.08D, 0.0D);
-                if (this.level().isClientSide) {
+                if (this.level() instanceof ServerLevel level) {
                     this.i += 30;
                     float r = 1.0F;
                     double x = getX() + r * Math.cos(Math.toRadians(this.i));
                     double y = getY() + ((this.i / 24.0) * 0.05);
                     double z = getZ() + r * Math.sin(Math.toRadians(this.i));
-                    this.level().addParticle(ParticleTypes.END_ROD, x, y, z, 0.0D, -0.04D, 0.0D);
+                    level.sendParticles(ParticleTypes.END_ROD, x, y, z, 1, .0, -.04, .0, .0);
                 }
                 Vec3 v = position().add(getLookAngle().yRot((float) Math.toRadians(60.0D)));
                 facePos(v.x, v.y, v.z);
@@ -118,22 +118,8 @@ public class EntityPaimon extends ThrowableProjectile {
             }
         }
 
-        if (player == null || EquipmentHandler.findOrEmpty(ModItems.paimonmedal, player).isEmpty()) {
-            if (this.level().isClientSide)
-                for (this.i = 0; this.i < 720; this.i += 24) {
-                    float r = 0.6F;
-                    double x = getX() + r * Math.cos(Math.toRadians(this.i));
-                    double y = getY() - 0.25D + ((this.i / 15.0) * 0.05);
-                    double z = getZ() + r * Math.sin(Math.toRadians(this.i));
-                    this.level().addParticle(ParticleTypes.END_ROD, x, y, z, 0.0D, -0.04D, 0.0D);
-                }
-            if (!this.level().isClientSide) {
-                setVoiceCD(200);
-                setTPCD(200);
-                randomVanishSound(this.level().random.nextInt(7));
-            }
-            discard();
-
+        if (player == null) {
+            vanish();
             return;
         }
         Vec3 playerPos = player.position();
@@ -195,8 +181,8 @@ public class EntityPaimon extends ThrowableProjectile {
                 setDeltaMovement(motion);
                 faceEntity(player, 360.0F, 360.0F);
                 if (this.tickCount % 12 == 0 &&
-                        this.level().isClientSide) {
-                    this.level().addParticle(ParticleTypes.END_ROD, getX() - motion.x, getY(), getZ() - motion.z, -motion.x, -0.05D, -motion.z);
+                        this.level() instanceof ServerLevel level) {
+                    level.sendParticles(ParticleTypes.END_ROD, getX() - motion.x, getY(), getZ() - motion.z, 1, -motion.x, -0.05D, -motion.z, .0);
                 }
             } else {
                 setDeltaMovement(Vec3.ZERO);
@@ -206,6 +192,23 @@ public class EntityPaimon extends ThrowableProjectile {
         }
     }
 
+    public void vanish() {
+        if (this.level() instanceof ServerLevel level) {
+            for (this.i = 0; this.i < 720; this.i += 24) {
+                float r = 0.6F;
+                double x = getX() + r * Math.cos(Math.toRadians(this.i));
+                double y = getY() - 0.25D + ((this.i / 15.0) * 0.05);
+                double z = getZ() + r * Math.sin(Math.toRadians(this.i));
+                level.sendParticles(ParticleTypes.END_ROD, x, y, z, 1, .0, -.04, .0, .0);
+            }
+            setVoiceCD(200);
+            setTPCD(200);
+            randomVanishSound(this.level().random.nextInt(7));
+        }
+        discard();
+    }
+
+    @Override
     public void defineSynchedData() {
         this.entityData.define(ROTATION, 0.0F);
         this.entityData.define(PITCH, 0.0F);
@@ -216,11 +219,13 @@ public class EntityPaimon extends ThrowableProjectile {
         this.entityData.define(TPCD, 0);
     }
 
+    @Override
     public boolean isPickable() {
         return !this.isRemoved();
     }
 
 
+    @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
         if (player.isSecondaryUseActive()) {
             ItemStack stack = player.getItemInHand(hand);
@@ -235,10 +240,9 @@ public class EntityPaimon extends ThrowableProjectile {
                     if (!player.getAbilities().instabuild) {
                         stack.shrink(1);
                     }
-                } else {
-                    for (int i = 0; i < 5; i++) {
-                        this.level().addParticle(ParticleTypes.HEART, getX() - 0.25D + 0.5D * Math.random(), getY() + 0.5D + 0.30000001192092896D * Math.random(), getZ() - 0.25D + 0.5D * Math.random(), 0.0D, 0.029999999329447746D, 0.0D);
-                    }
+                }
+                if (level() instanceof ServerLevel level) for (int i = 0; i < 5; i++) {
+                    level.sendParticles(ParticleTypes.HEART, getX() - 0.25D + 0.5D * Math.random(), getY() + 0.5D + 0.30000001192092896D * Math.random(), getZ() - 0.25D + 0.5D * Math.random(), 1, .0, .029999999329447746, .0, .0);
                 }
                 return InteractionResult.SUCCESS;
             }
@@ -347,7 +351,7 @@ public class EntityPaimon extends ThrowableProjectile {
         return (v1.distanceTo(v2) <= 0.25D);
     }
 
-
+    @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         setOwnerID(compound.getInt("owner_id"));
         setRotation(compound.getFloat("rotation"));
@@ -358,7 +362,7 @@ public class EntityPaimon extends ThrowableProjectile {
         setTPCD(compound.getInt("tpcd"));
     }
 
-
+    @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         compound.putInt("owner_id", getOwnerID());
         compound.putFloat("rotation", getRotation());

@@ -15,7 +15,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,32 +34,19 @@ public class ItemPaimonMedal extends TrinketItem {
     @Override
     public void tick(ItemStack stack, SlotReference slot, LivingEntity entity) {
         super.tick(stack, slot, entity);
-        if (entity.level().getGameTime() % 20 != 0) return;
+        if (entity.level().isClientSide() || entity.level().getGameTime() % 20 != 0) return;
         if (entity instanceof Player player) {
-            boolean checkPaimonExistence = false;
-            int RANGE = 5;
-            AABB axis = new AABB(player.blockPosition().offset(-RANGE, -RANGE, -RANGE), player.blockPosition().offset(RANGE, RANGE, RANGE));
-            List<EntityPaimon> paimons = player.level().getEntitiesOfClass(EntityPaimon.class, axis);
-            for (EntityPaimon paimon : paimons) {
-                if (paimon.getOwnerID() == player.getId()) {
-                    checkPaimonExistence = true;
-
-                    break;
-                }
-            }
             final IPaimonOwner owner = (IPaimonOwner) player;
             Entity e = player.level().getEntity(owner.paimon$getPaimonEntityId());
-            if (!player.getCooldowns().isOnCooldown(this) && !checkPaimonExistence && (!(e instanceof EntityPaimon))) {
+            if (!player.getCooldowns().isOnCooldown(this) && (!(e instanceof EntityPaimon))) {
                 Vec3 lookVec = player.getLookAngle().normalize().scale(1.5D);
                 Vec3 spawnPoint = player.position().add(lookVec.x, 1.0D, lookVec.z);
                 EntityPaimon paimon = new EntityPaimon(player.level(), spawnPoint.x, spawnPoint.y, spawnPoint.z);
                 paimon.setOwnerID(player.getId());
                 paimon.faceEntity(player, 360.0F, 360.0F);
-                if (!player.level().isClientSide) {
-                    player.level().addFreshEntity(paimon);
-                    randomSpawnSound(paimon, player.level().random.nextInt(2));
-                    player.getCooldowns().addCooldown(this, 100);
-                }
+                player.level().addFreshEntity(paimon);
+                randomSpawnSound(paimon, player.level().random.nextInt(2));
+                player.getCooldowns().addCooldown(this, 100);
                 owner.paimon$setPaimonEntityId(paimon.getId());
             }
         }
@@ -75,9 +61,11 @@ public class ItemPaimonMedal extends TrinketItem {
     public void onUnequip(ItemStack stack, SlotReference slot, LivingEntity entity) {
         super.onUnequip(stack, slot, entity);
         if (!(entity instanceof Player player)) return;
+        final Level level = player.level();
+        if (level.isClientSide()) return;
         final IPaimonOwner owner = (IPaimonOwner) player;
-        if (!(player.level().getEntity(owner.paimon$getPaimonEntityId()) instanceof EntityPaimon paimon)) return;
-        paimon.discard();
+        if (!(level.getEntity(owner.paimon$getPaimonEntityId()) instanceof EntityPaimon paimon)) return;
+        paimon.vanish();
         owner.paimon$setPaimonEntityId(-1);
     }
 
