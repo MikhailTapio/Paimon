@@ -1,0 +1,176 @@
+{
+  "paimon_0": {
+    "sounds": [
+      "paimon:paimon_0"
+    ],
+    "subtitle": "paimon.subtitle.paimon_0"
+  },
+  "paimon_1": {
+    "sounds": [
+      "paimon:paimon_1"
+    ],
+    "subtitle": "paimon.subtitle.paimon_1"
+  },
+  "paimon_2": {
+    "sounds": [
+      "paimon:paimon_2"
+    ],
+    "subtitle": "paimon.subtitle.paimon_2"
+  },
+  "paimon_3": {
+    "sounds": [
+      "paimon:paimon_3"
+    ],
+    "subtitle": "paimon.subtitle.paimon_3"
+  },
+  "paimon_4": {
+    "sounds": [
+      "paimon:paimon_4"
+    ],
+    "subtitle": "paimon.subtitle.paimon_4"
+  },
+  "paimon_5": {
+    "sounds": [
+      "paimon:paimon_5"
+    ],
+    "subtitle": "paimon.subtitle.paimon_5"
+  },
+  "paimon_6": {
+    "sounds": [
+      "paimon:paimon_6"
+    ],
+    "subtitle": "paimon.subtitle.paimon_6"
+  },
+  "paimon_7": {
+    "sounds": [
+      "paimon:paimon_7"
+    ],
+    "subtitle": "paimon.subtitle.paimon_7"
+  },
+  "paimon_8": {
+    "sounds": [
+      "paimon:paimon_8"
+    ],
+    "subtitle": "paimon.subtitle.paimon_8"
+  },
+  "paimon_9": {
+    "sounds": [
+      "paimon:paimon_9"
+    ],
+    "subtitle": "paimon.subtitle.paimon_9"
+  },
+  "paimon_10": {
+    "sounds": [
+      "paimon:paimon_10"
+    ],
+    "subtitle": "paimon.subtitle.paimon_10"
+  },
+  "paimon_11": {
+    "sounds": [
+      "paimon:paimon_11"
+    ],
+    "subtitle": "paimon.subtitle.paimon_11"
+  },
+  "paimon_12": {
+    "sounds": [
+      "paimon:paimon_12"
+    ],
+    "subtitle": "paimon.subtitle.paimon_12"
+  },
+  "paimon_13": {
+    "sounds": [
+      "paimon:paimon_13"
+    ],
+    "subtitle": "paimon.subtitle.paimon_13"
+  },
+  "paimon_tp_0": {
+    "sounds": [
+      "paimon:paimon_tp_0"
+    ],
+    "subtitle": "paimon.subtitle.paimon_tp_0"
+  },
+  "paimon_tp_1": {
+    "sounds": [
+      "paimon:paimon_tp_1"
+    ],
+    "subtitle": "paimon.subtitle.paimon_tp_1"
+  },
+  "paimon_tp_2": {
+    "sounds": [
+      "paimon:paimon_tp_2"
+    ],
+    "subtitle": "paimon.subtitle.paimon_tp_2"
+  },
+  "paimon_tp_3": {
+    "sounds": [
+      "paimon:paimon_tp_3"
+    ],
+    "subtitle": "paimon.subtitle.paimon_tp_3"
+  },
+  "paimon_vanish_0": {
+    "sounds": [
+      "paimon:paimon_vanish_0"
+    ],
+    "subtitle": "paimon.subtitle.paimon_vanish_0"
+  },
+  "paimon_vanish_1": {
+    "sounds": [
+      "paimon:paimon_vanish_1"
+    ],
+    "subtitle": "paimon.subtitle.paimon_vanish_1"
+  },
+  "paimon_vanish_2": {
+    "sounds": [
+      "paimon:paimon_vanish_2"
+    ],
+    "subtitle": "paimon.subtitle.paimon_vanish_2"
+  },
+  "paimon_vanish_3": {
+    "sounds": [
+      "paimon:paimon_vanish_3"
+    ],
+    "subtitle": "paimon.subtitle.paimon_vanish_3"
+  },
+  "paimon_vanish_4": {
+    "sounds": [
+      "paimon:paimon_vanish_4"
+    ],
+    "subtitle": "paimon.subtitle.paimon_vanish_4"
+  },
+  "paimon_vanish_5": {
+    "sounds": [
+      "paimon:paimon_vanish_5"
+    ],
+    "subtitle": "paimon.subtitle.paimon_vanish_5"
+  },
+  "paimon_vanish_6": {
+    "sounds": [
+      "paimon:paimon_vanish_6"
+    ],
+    "subtitle": "paimon.subtitle.paimon_vanish_6"
+  },
+  "paimon_spawn_0": {
+    "sounds": [
+      "paimon:paimon_spawn_0"
+    ],
+    "subtitle": "paimon.subtitle.paimon_spawn_0"
+  },
+  "paimon_thank_0": {
+    "sounds": [
+      "paimon:paimon_thank_0"
+    ],
+    "subtitle": "paimon.subtitle.paimon_thank_0"
+  },
+  "paimon_thank_1": {
+    "sounds": [
+      "paimon:paimon_thank_1"
+    ],
+    "subtitle": "paimon.subtitle.paimon_thank_1"
+  },
+  "paimon_thank_2": {
+    "sounds": [
+      "paimon:paimon_thank_2"
+    ],
+    "subtitle": "paimon.subtitle.paimon_thank_2"
+  }
+}

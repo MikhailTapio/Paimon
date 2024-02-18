@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.plr.paimon.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "paimon.refmap.json",
+  "mixins": [
+    "MixinServerPlayer"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
