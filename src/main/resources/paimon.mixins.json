@@ -6,7 +6,8 @@
   "mixins": [
     "MixinFishingHook",
     "MixinPlayer",
-    "MixinPlayerList"
+    "MixinPlayerList",
+    "MixinServerPlayer"
   ],
   "injectors": {
     "defaultRequire": 1
