@@ -70,8 +70,12 @@ public class ItemPaimonMedal extends ItemBauble {
         if (!(entity instanceof Player player)) return;
         final Level level = player.level;
         if (level.isClientSide()) return;
-        CompoundTag nbtData = player.getPersistentData();
-        CompoundTag data = nbtData.getCompound("PlayerPersisted");
+        final CompoundTag nbtData = player.getPersistentData();
+        if (!nbtData.contains("PlayerPersisted")) {
+            nbtData.put("PlayerPersisted", new CompoundTag());
+            return;
+        }
+        final CompoundTag data = nbtData.getCompound("PlayerPersisted");
         if (!data.contains(TAG_PAIMONID)) return;
         if (!(level.getEntity(data.getInt(TAG_PAIMONID)) instanceof EntityPaimon paimon)) return;
         paimon.discard();

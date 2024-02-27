@@ -1,14 +1,14 @@
 modLoader = "javafml"
-loaderVersion = "[34,)"
-license = "All rights reserved"
-[[mods]] #mandatory
-modId = "paimon"
-version = "${file.jarVersion}"
-displayName = "A Paimon"
-authors = "ExtraMeteorP, GoldYgg, Tapio"
-description = ""
-
-[[dependencies.paimon]]
+loaderVersion = "${loader_version_range}"
+license = "${mod_license}"
+issueTrackerURL = "https://github.com/MikhailTapio/Paimon/issues"
+[[mods]]
+modId = "${mod_id}"
+version = "${mod_version}"
+displayName = "${mod_name}"
+authors = "${mod_authors}"
+description = '''${mod_description}'''
+[[dependencies.${ mod_id }]]
 modId = "curios"
 mandatory = true
 versionRange = "*"
