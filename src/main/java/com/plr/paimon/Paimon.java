@@ -38,6 +38,7 @@ public class Paimon {
     }
 
     private void imc(InterModEnqueueEvent event) {
+
         if (ModList.get().isLoaded("carryon")) CarryOnCompat.init();
     }
 }

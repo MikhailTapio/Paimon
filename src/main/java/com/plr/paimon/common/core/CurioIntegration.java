@@ -2,6 +2,7 @@ package com.plr.paimon.common.core;
 
 import com.google.common.collect.Multimap;
 import com.plr.paimon.common.items.ItemBauble;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -13,7 +14,7 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.CuriosCapability;
 import top.theillusivec4.curios.api.SlotContext;
-import top.theillusivec4.curios.api.SlotTypePreset;
+import top.theillusivec4.curios.api.SlotTypeMessage;
 import top.theillusivec4.curios.api.type.capability.ICurio;
 
 import java.util.UUID;
@@ -24,7 +25,11 @@ import java.util.function.Predicate;
 public class CurioIntegration
         extends EquipmentHandler {
     public static void sendImc(InterModEnqueueEvent evt) {
-        InterModComms.sendTo("curios", "register_type", () -> SlotTypePreset.CHARM.getMessageBuilder().build());
+        InterModComms.sendTo("curios", "register_type", () -> new SlotTypeMessage.Builder("paimon_medal")
+                .size(1)
+                .priority(210)
+                .icon(new ResourceLocation("paimon", "slot/empty_paimon_slot"))
+                .build());
     }
 
 
